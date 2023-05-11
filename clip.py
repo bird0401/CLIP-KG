@@ -3,13 +3,16 @@ import torch
 from PIL import Image
 import clip
 import glob
+from tqdm import tqdm
 
-entity_dirs = glob.glob("dogs/*/")
+entity_dirs = glob.glob("wikipedia/*/")
+print(len(entity_dirs))
+# entity_dirs = glob.glob("dogs/*/")
 entities, texts, image_file_names = [], [], []
-for entity_dir in entity_dirs:
+for entity_dir in tqdm(entity_dirs):
     entity = entity_dir.split("/")[1]
     entities.append(entity)
-    entity_text = open(f"dogs/{entity}/entity_page.txt", "r").read()
+    entity_text = open(f"{entity_dir}/entity_page.txt", "r").read()
     texts.append(entity_text)
     image_file_names.append(f"{entity_dir}/image.jpg")
 
@@ -19,7 +22,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
 text = clip.tokenize(texts).to(device)
 correct_cnt = 0
-for i, image_file_name in enumerate(image_file_names):
+for i, image_file_name in tqdm(enumerate(image_file_names)):
     image = preprocess(Image.open(image_file_name)).unsqueeze(0).to(device)
     with torch.no_grad():
         image_features = model.encode_image(image)
@@ -27,7 +30,7 @@ for i, image_file_name in enumerate(image_file_names):
         
         logits_per_image, logits_per_text = model(image, text)
         probs = logits_per_image.softmax(dim=-1).cpu().numpy()
-    # print(f"Correct entity: {entities[i]}")
+    print(f"Correct entity: {entities[i]}")
     # print(f"Pred entity: {entities[np.argmax(probs)]}")
     if entities[i] == entities[np.argmax(probs)]:
         correct_cnt += 1

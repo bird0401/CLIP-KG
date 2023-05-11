@@ -9,5 +9,11 @@ thumbs.db
 .DS_Store
 .idea
 
+.*
 *.jpg
 *.txt
+*.sif
+
+
+dogs/
+wikipedia/
