@@ -1,8 +1,6 @@
-FROM python:3.10
-
+FROM --platform=linux/amd64 python:3.8
 # to process fast
 ENV TERM xterm
-
 # install python external modules
 COPY requirements.txt /usr/src
 WORKDIR /usr/src

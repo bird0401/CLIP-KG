@@ -4,10 +4,10 @@ services:
   application:
     restart: always
     build:
-      context: customed_python3_10/
-      dockerfile: Dockerfile
-    image: python_multimodal # specify name image
-    container_name: multimodal
+      context: customed_python/
+      dockerfile: Dockerfile_python_3_10_linux
+    image: python_clip_v2 # specify name image
+    container_name: python_clip_v2
     tty: true
     working_dir: /usr/local/mount_dir
     environment:
