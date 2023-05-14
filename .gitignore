@@ -13,7 +13,7 @@ thumbs.db
 *.jpg
 *.txt
 *.sif
-
+*.out
 
 dogs/
 wikipedia/

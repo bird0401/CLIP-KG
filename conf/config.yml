@@ -1,0 +1,44 @@
+hydra:
+  run:
+    dir: ./
+  output_subdir: null
+  job_logging:
+    version: 1
+    handlers:
+      console:
+        class: logging.StreamHandler
+        stream: ext://sys.stdout
+    root:
+      handlers: [console]
+    disable_existing_loggers: False
+
+general:
+  seed: 2022
+  is_debug: False
+  use_optuna: False
+  is_train: True
+
+data:
+  category: ???
+  img_size: 224
+  batch_size:
+    train: ???
+    val: ???
+  data_dir: ???
+  # n_fold: 5
+
+model:
+  model_name: efficientnet_b0
+  embedding_size: 512
+  # weight_file: ???
+
+optimizer:
+  learning_rate: ???
+  weight_decay: 1.0e-06
+  scheduler: CosineAnnealingLR
+  T_max: 10
+
+train:
+  epochs: 10
+  n_accumulate: 1
+  enable_amp_half_precision: False
