@@ -13,17 +13,19 @@ logger = logging.getLogger("main")
 
 # entity_dirs = glob.glob("dogs/*/")
 entity_dirs = glob.glob("wikipedia/*/")
-entity_dirs = entity_dirs[:2000] # For testing
-texts = []
+# entity_dirs = entity_dirs[:10] # For testing
+texts, labels = [], []
 
 logger.info("start extracting texts")
 for entity_dir in tqdm(entity_dirs):
     entity_text = open(f"{entity_dir}/entity_page.txt", "r").read()
     texts.append(entity_text)
+    labels.append(entity_dir.split("/")[1])
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
-texts_tokenized = clip.tokenize(texts, truncate=True).to(device)
+text_inputs = torch.cat([clip.tokenize(f"a photo of a {l}") for l in labels]).to(device)
+# text_inputs = clip.tokenize(texts, truncate=True).to(device)
 correct_cnt = 0
 
 start = time.time()
@@ -33,12 +35,12 @@ for i, entity_dir in tqdm(enumerate(entity_dirs)):
         file_name = f"{entity_dir}image.jpg"
         image = preprocess(Image.open(file_name)).unsqueeze(0).to(device)
         with torch.no_grad():
-            logits_per_image, logits_per_text = model(image, texts_tokenized)
+            logits_per_image, logits_per_text = model(image, text_inputs)
             probs = logits_per_image.softmax(dim=-1).cpu().numpy()
         if i == np.argmax(probs[0]):
             correct_cnt += 1
     except FileNotFoundError:
-        print(f"File: {file_name} is not found")
+        logger.info(f"File: {file_name} is not found")
     except Exception:
         traceback.print_exc()
         continue
