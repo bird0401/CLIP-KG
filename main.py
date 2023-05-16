@@ -11,8 +11,8 @@ with open("./conf/logging.yml") as f:
 logging.config.dictConfig(cfg)
 logger = logging.getLogger("main")
 
-# entity_dirs = glob.glob("dogs/*/")
-entity_dirs = glob.glob("wikipedia/*/")
+entity_dirs = glob.glob("dogs/*/")
+# entity_dirs = glob.glob("wikipedia/*/")
 # entity_dirs = entity_dirs[:10] # For testing
 texts, labels = [], []
 
