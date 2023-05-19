@@ -3,9 +3,10 @@ import torch
 from PIL import Image
 import clip
 from tqdm import tqdm
-import glob, traceback, time, logging, logging.config
-from yaml import safe_load
+import glob, traceback, time
 
+import logging, logging.config
+from yaml import safe_load
 with open("./conf/logging.yml") as f:
     cfg = safe_load(f)
 logging.config.dictConfig(cfg)
