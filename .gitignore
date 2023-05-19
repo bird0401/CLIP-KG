@@ -14,6 +14,8 @@ thumbs.db
 *.txt
 *.sif
 *.out
+*.csv
+*.pkl
 
 dogs/
 wikipedia/
