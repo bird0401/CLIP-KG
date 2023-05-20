@@ -8,6 +8,6 @@
 
 module load singularity/3.7.3
 singularity exec \
-    --pwd /$HOME/CLIP/ \
+    --pwd /$HOME/CLIP/src/ \
     --nv /$HOME/CLIP/python_clip_v2_latest.sif \
-    python ../src/download_images.py
+    python download_images.py
