@@ -7,19 +7,19 @@ import glob, traceback, time
 
 import logging, logging.config
 from yaml import safe_load
-with open("./conf/logging.yml") as f:
+with open("../conf/logging.yml") as f:
     cfg = safe_load(f)
 logging.config.dictConfig(cfg)
 logger = logging.getLogger("main")
 
-entity_dirs = glob.glob("dogs/*/")
-# entity_dirs = glob.glob("wikipedia/*/")
+entity_dirs = glob.glob("../dogs/*/")
+# entity_dirs = glob.glob("../wikipedia/*/")
 # entity_dirs = entity_dirs[:10] # For testing
 texts, labels = [], []
 
 logger.info("start extracting texts")
 for entity_dir in tqdm(entity_dirs):
-    entity_text = open(f"{entity_dir}/entity_page.txt", "r").read()
+    entity_text = open(f"../{entity_dir}/entity_page.txt", "r").read()
     texts.append(entity_text)
     labels.append(entity_dir.split("/")[1])
 
@@ -33,7 +33,7 @@ start = time.time()
 logger.info("start inference")
 for i, entity_dir in tqdm(enumerate(entity_dirs)):
     try:
-        file_name = f"{entity_dir}image.jpg"
+        file_name = f"../{entity_dir}image.jpg"
         image = preprocess(Image.open(file_name)).unsqueeze(0).to(device)
         with torch.no_grad():
             logits_per_image, logits_per_text = model(image, text_inputs)
