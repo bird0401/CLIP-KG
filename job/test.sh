@@ -8,6 +8,6 @@
 
 module load singularity/3.7.3
 singularity exec \
-    --pwd /$HOME/CLIP/ \
-    --nv /$HOME/CLIP/python_clip_v2_latest.sif \
+    --pwd /$HOME/CLIP-KG/ \
+    --nv /$HOME/CLIP-KG/python_clip_v2_latest.sif \
     pip install tenacity fake_useragent
