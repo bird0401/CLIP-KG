@@ -13,12 +13,11 @@ def main():
     # entity_imgs = entity_imgs[:1000] # for debug
     logger.info(f"len(entity_imgs): {len(entity_imgs)}")
 
-    entity_id_to_text = pickle.load(open("../entity_texts.pkl", "rb"))
+    entity_id_to_text = pickle.load(open("../entity_texts_shorter.pkl", "rb"))
     texts = create_texts_from_structured_data(entity_imgs, entity_id_to_text)
     logger.info(f"len(texts): {len(texts)}")
     
     inference(entity_imgs, texts)
 
-    
 if __name__ == "__main__":
     main()
